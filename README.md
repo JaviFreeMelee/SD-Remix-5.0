@@ -5,6 +5,7 @@ DOL Mods:
 
 *Toggle between Alpha/Omega on SSS [_glook]
 
+
 Gecko Codes:
 
 *Taunt Cancel [Dan Salvato]
@@ -76,5 +77,6 @@ Gecko Codes:
 *DamageDown Knockback Condition [UnclePunch]
 
 *Ganon Float v1.0 [UnclePunch]
+
 
 Stages:
