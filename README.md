@@ -81,9 +81,13 @@ Gecko Codes:
 
 Stages:
 
+
+
 Reverse Battlefield
 
-Credits to project//RS for these stages
+
+
+Credits to project//RS for
 
 Onett-Ville: an Onett-themed take on Smashville whose platform doesn't go offstage
 
@@ -121,11 +125,15 @@ Poké Float Stadium 2: This stage's layout resembles the original Stadium, but i
 
 Infinite Glacier: A casual stage you may remember from PM, this one platform stage is very wide and very slippery.
 
+
+
 Credits to Cjag for
 
 Smashville
 
 WarioWare
+
+
 
 Credits to Ultim for
 
