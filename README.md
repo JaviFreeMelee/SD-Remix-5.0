@@ -83,7 +83,7 @@ Stages:
 * Reverse Battlefield
 
 
-Credits to project//RS for:
+  Credits to project//RS for:
 
 * Onett-Ville: an Onett-themed take on Smashville whose platform doesn't go offstage
 
@@ -123,7 +123,7 @@ Credits to project//RS for:
 
 
 
-Credits to Cjag for:
+  Credits to Cjag for:
 
 * Smashville
 
@@ -131,7 +131,7 @@ Credits to Cjag for:
 
 
 
-Credits to Ultim for:
+  Credits to Ultim for:
 
 * Super Happy Tree
 
