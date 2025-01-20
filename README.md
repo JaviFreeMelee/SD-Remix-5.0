@@ -3,7 +3,7 @@ Changelog: https://docs.google.com/document/d/1KVR69R9trK_NdMSIEDzmarXXxOO9_5lHX
 
 DOL Mods:
 
-*Toggle between Alpha/Omega on SSS [_glook]
+* Toggle between Alpha/Omega on SSS [_glook]
 
 
 Gecko Codes:
