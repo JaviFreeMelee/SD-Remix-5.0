@@ -2,9 +2,11 @@
 Changelog: https://docs.google.com/document/d/1KVR69R9trK_NdMSIEDzmarXXxOO9_5lHXY4eQT1TJKs/edit?tab=t.0
 
 DOL Mods:
+
 *Toggle between Alpha/Omega on SSS [_glook]
 
 Gecko Codes:
+
 *Taunt Cancel [Dan Salvato]
 
 *SSBM NTSC 1.00/1.01 - Attacks that Deal Less than 1 Damage Have No Hitlag or DI-ability (1.02) [Magus]
