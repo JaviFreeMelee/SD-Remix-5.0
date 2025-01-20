@@ -1,0 +1,78 @@
+Toggle between Alpha/Omega on SSS
+If on the Stage Selection Screen, you can press L to switch to the "Alpha" toggle and R to switch to the "Omega" toggle. It then reloads the stage selection screen so the change can be evident.
+When switching, it also plays a sound effect unique to reloading the page.
+When reloading, it actually loads a different file for the stage select, so the two stage lists can have different graphics, so it's expected that the ISO has the different file. Alpha is MnSlMap.usd, while Omega is MnSlMop.usd.
+Provides the (read only) boolean varIsAlphaOrOmega so other stage mods can know if it's alpha or omega.
+[_glook]
+Revision ---- DOL Offset ---- Hex to Replace ---------- ASM Code -
+<varIsAlphaOrOmega> ALL
+00000000    # Default to alpha
+
+<varSssNextScreenId> ALL
+00000001
+
+NTSC 1.02 --- 0x8025BAFC ---- 540005AD -> Branch
+
+# At this location, it's checking if B is pressed, to leave the SSS. We also want to hook in L/R press.
+# If L or R pressed, exit, but the next scene ID should be the SSS instead of the CSS
+540305AD # rlwinm. r3,r0,0,22,22    # Check for B press
+4182000C # beq CHECK_L              # If 0 (b is unpressed), check for L
+38600000 # li r3, 0                 # If b is pressed, set the sound effect
+48000058 # b RETURN                 #   and just return
+# CHECK_L:
+lis r4, <<varIsAlphaOrOmega>>@h
+ori r4, r4, <<varIsAlphaOrOmega>>@l
+38600005 # li r3, 0x5   # Pew Pew!  # We don't need this here I don't think.
+80A40000 # lwz r5, 0(r4)
+54030673 # rlwinm. r3,r0,0,25,25    # Check for L press
+41820014 # beq CHECK_R              # If not pressed, check R
+# If L pressed, check if we're already in Alpha
+2C050000 # cmpwi r5, 0x0
+41820038 # beq RETURN               # If we're already in alpha, move on
+38A00000 # li r5, 0x0               # Otherwise set to Alpha
+48000018 # b CHANGE_SSS
+# CHECK_R:
+540306B5 # rlwinm. r3,r0,0,26,26    # Check for R press
+41820028 # beq RETURN               # If R not pressed, just leave
+2C050001 # cmpwi r5, 0x1            # If toggle is already on Omega
+41820020 # beq RETURN               #   just return
+38A00001 # li r5, 0x1               # Otherwise, set to Omega
+# CHANGE_SSS:
+90A40000 # stw r5, 0(r4)            # r4 == varIsAlphaOrOmega
+38600005 # li r3, 0x5               # Set sound effect to lazer sounds for when screen reloads
+lis r4, <<varSssNextScreenId>>@h
+ori r4, r4, <<varSssNextScreenId>>@l
+38A00001 # li r5, 0x1               # Sets next screen ID to 1, which is the Stage Select Screen
+90A40000 # stw r5, 0(r4)
+# RETURN:
+00000000    # Return
+
+------------- 0x8025BB10 ---- 38600000 -> 60000000 # Instead of playing default sound, play whatever we did above
+------------- 0x801B156C ---- 38A00000 -> Branch
+
+# Normally, this sets r5 to 0, 0 being CSS screen. But if we're reloading, we want it to be 1, for SSS.
+# varSssNextScreenId should be set to 1 if reloading (from before), but will be 0 otherwise.
+# In addition, once we've loaded this, set varSssNextScreenId to 0, so it will normally load the CSS
+lis r6, <<varSssNextScreenId>>@h
+ori r6, r6, <<varSssNextScreenId>>@l
+80A60000    # lwz r5, 0(r6)
+38E00000    # li r7, 0
+90E60000    # stw r7, 0(r6)
+00000000    # Return
+
+------------- 0x8025A9D4 ---- 387F0348 -> Branch
+
+# Lastly, when we load the SSS, we want to load a different SSS file from Alpha or Omega, so it looks different.
+387F0348    # addi r3, r31, 0x348   # Do instruction at branch point, which is to have r3 point to filename
+lis r4, <<varIsAlphaOrOmega>>@h
+ori r4, r4, <<varIsAlphaOrOmega>>@l
+80840000    # lwz r4, 0(r4)
+2C040000    # cmpwi r4, 0x0         # Is it Alpha?
+4082000C    # bne- OMEGA
+38800061    # li r4, 0x61
+48000008    # b CHANGE_FILENAME
+# OMEGA:
+3880006F    # li r4, 0x6F
+# CHANGE_FILENAME:
+98830005    # stb r4, 5(r3)         # filename is normally "MnSlMap.usd". Omega changes it to "MnSlMop.usd".
+00000000    # Return
