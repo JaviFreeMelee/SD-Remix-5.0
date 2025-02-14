@@ -1,5 +1,5 @@
 Toggle between Alpha/Omega on SSS
-If on the Stage Selection Screen, you can press L to switch to the "Alpha" toggle and R to switch to the "Omega" toggle. It then reloads the stage selection screen so the change can be evident.
+If on the Stage Selection Screen, you can press Up to switch to the "Alpha" toggle and Down to switch to the "Omega" toggle. It then reloads the stage selection screen so the change can be evident.
 When switching, it also plays a sound effect unique to reloading the page.
 When reloading, it actually loads a different file for the stage select, so the two stage lists can have different graphics, so it's expected that the ISO has the different file. Alpha is MnSlMap.usd, while Omega is MnSlMop.usd.
 Provides the (read only) boolean varIsAlphaOrOmega so other stage mods can know if it's alpha or omega.
@@ -14,29 +14,29 @@ Revision ---- DOL Offset ---- Hex to Replace ---------- ASM Code -
 NTSC 1.02 --- 0x8025BAFC ---- 540005AD -> Branch
 
 # At this location, it's checking if B is pressed, to leave the SSS. We also want to hook in L/R press.
-# If L or R pressed, exit, but the next scene ID should be the SSS instead of the CSS
+# If D-Pad Up or Down pressed, exit, but the next scene ID should be the SSS instead of the CSS
 540305AD # rlwinm. r3,r0,0,22,22    # Check for B press
-4182000C # beq CHECK_L              # If 0 (b is unpressed), check for L
+4182000C # beq CHECK_UP             # If 0 (B is unpressed), check for D-Pad Up
 38600000 # li r3, 0                 # If b is pressed, set the sound effect
 48000058 # b RETURN                 #   and just return
-# CHECK_L:
+# CHECK_UP:
 lis r4, <<varIsAlphaOrOmega>>@h
 ori r4, r4, <<varIsAlphaOrOmega>>@l
-38600005 # li r3, 0x5   # Pew Pew!  # We don't need this here I don't think.
+38600005 # li r3, 0x5   # Pew Pew!
 80A40000 # lwz r5, 0(r4)
-54030673 # rlwinm. r3,r0,0,25,25    # Check for L press
-41820014 # beq CHECK_R              # If not pressed, check R
-# If L pressed, check if we're already in Alpha
+54030739 # rlwinm. r3,r0,0,28,28    # Check for D-Pad Up press
+41820014 # beq CHECK_DOWN           # If not pressed, check Down
+# If Up pressed, check if we're already in Alpha
 2C050000 # cmpwi r5, 0x0
 41820038 # beq RETURN               # If we're already in alpha, move on
 38A00000 # li r5, 0x0               # Otherwise set to Alpha
 48000018 # b CHANGE_SSS
-# CHECK_R:
-540306B5 # rlwinm. r3,r0,0,26,26    # Check for R press
-41820028 # beq RETURN               # If R not pressed, just leave
-2C050001 # cmpwi r5, 0x1            # If toggle is already on Omega
+# CHECK_DOWN:
+5403077B # rlwinm. r3,r0,0,29,29    # Check for D-Pad Down press
+41820028 # beq RETURN               # If Down is not pressed, just leave
+2C050003 # cmpwi r5, 0x0            # If already in Alpha
 41820020 # beq RETURN               #   just return
-38A00001 # li r5, 0x1               # Otherwise, set to Omega
+38A00003 # li r5, 0x0               # Otherwise, set to Alpha
 # CHANGE_SSS:
 90A40000 # stw r5, 0(r4)            # r4 == varIsAlphaOrOmega
 38600005 # li r3, 0x5               # Set sound effect to lazer sounds for when screen reloads
