@@ -143,12 +143,12 @@ Stages:
 Alt Stages (Button Hold):
 
 Castle Siege
-[L Hold] Blue
-[R Hold] Red
+* [L Hold] Blue
+* [R Hold] Red
 
 Trophy Tussle
-[L Hold] Mount Olympus
+* [L Hold] Mount Olympus
 
 Final Destination
-[L Hold] Brawl FD
-[R Hold] Vs. Mewtwo FD
+* [L Hold] Brawl FD
+* [R Hold] Vs. Mewtwo FD
