@@ -77,6 +77,8 @@ Gecko Codes:
 
 * Ganon Float v1.0 [UnclePunch]
 
+* String Modifier and XT Alt Stage Loader [TDRR/UnclePunch]
+
 
 Stages:
 
@@ -136,3 +138,17 @@ Stages:
 * Super Happy Tree
 
 * Whispy's Battlegrounds
+
+
+Alt Stages (Button Hold):
+
+Castle Siege
+[L Hold] Blue
+[R Hold] Red
+
+Trophy Tussle
+[L Hold] Mount Olympus
+
+Final Destination
+[L Hold] Brawl FD
+[R Hold] Vs. Mewtwo FD
